@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1"
+    ComputedModelVersion    "1.2"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -40,7 +40,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [462.0, 23.0, 800.0, 522.0]
+      Location		      [297.0, 72.0, 800.0, 522.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -99,9 +99,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "guoshaopan"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jan 02 15:38:43 2018"
-  RTWModifiedTimeStamp	  436808308
-  ModelVersionFormat	  "1.%<AutoIncrement:1>"
+  LastModifiedDate	  "Tue Jan 02 16:58:10 2018"
+  RTWModifiedTimeStamp	  436812100
+  ModelVersionFormat	  "1.%<AutoIncrement:2>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -936,6 +936,26 @@ Model {
       Decimation	      "10"
     }
     Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      S-Function
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
       BlockType		      Sin
       SineType		      "Time based"
       TimeSource	      "Use simulation time"
@@ -962,7 +982,7 @@ Model {
   }
   System {
     Name		    "chap5_8sim"
-    Location		    [462, 23, 1262, 545]
+    Location		    [297, 72, 1097, 594]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -976,13 +996,70 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "3"
+    SIDHighWatermark	    "12"
     Block {
       BlockType		      Clock
       Name		      "Clock"
       SID		      "2"
       Position		      [80, 285, 100, 305]
       ZOrder		      6
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      SID		      "10"
+      Ports		      [1, 3]
+      Position		      [510, 46, 515, 84]
+      ZOrder		      13
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      SID		      "9"
+      Ports		      [2, 1]
+      Position		      [240, 121, 245, 159]
+      ZOrder		      12
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      SID		      "11"
+      Ports		      [2, 1]
+      Position		      [510, 111, 515, 149]
+      ZOrder		      14
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      S-Function
+      Name		      "S-Function"
+      SID		      "6"
+      Ports		      [1, 1]
+      Position		      [255, 50, 315, 80]
+      ZOrder		      9
+      FunctionName	      "chap5_8plant"
+      SFunctionDeploymentMode off
+      EnableBusSupport	      off
+      SFcnIsStateOwnerBlock   off
+    }
+    Block {
+      BlockType		      S-Function
+      Name		      "S-Function1"
+      SID		      "8"
+      Ports		      [1, 1]
+      Position		      [345, 125, 405, 155]
+      ZOrder		      11
+      FunctionName	      "chap5_8eso"
+      SFunctionDeploymentMode off
+      EnableBusSupport	      off
+      SFcnIsStateOwnerBlock   off
     }
     Block {
       BlockType		      Sin
@@ -993,6 +1070,19 @@ Model {
       ZOrder		      1
       Amplitude		      "0.1"
       SampleTime	      "0"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "To Workspace"
+      SID		      "12"
+      Ports		      [1]
+      Position		      [570, 115, 630, 145]
+      ZOrder		      15
+      VariableName	      "x"
+      MaxDataPoints	      "inf"
+      Save2DSignal	      "3-D array (concatenate along third dimension)"
+      FixptAsFi		      on
+      SampleTime	      "-1"
     }
     Block {
       BlockType		      ToWorkspace
@@ -1012,6 +1102,69 @@ Model {
       SrcBlock		      "Clock"
       SrcPort		      1
       DstBlock		      "To Workspace1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      3
+      SrcBlock		      "Sine Wave\nFunction"
+      SrcPort		      1
+      Points		      [50, 0]
+      Branch {
+	ZOrder			6
+	Points			[0, 85]
+	DstBlock		"Mux"
+	DstPort			2
+      }
+      Branch {
+	ZOrder			5
+	DstBlock		"S-Function"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      4
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      DstBlock		      "S-Function1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      8
+      SrcBlock		      "Demux"
+      SrcPort		      1
+      Points		      [9, 0; 0, 51; -303, 0; 0, 24]
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      9
+      SrcBlock		      "S-Function1"
+      SrcPort		      1
+      DstBlock		      "Mux1"
+      DstPort		      2
+    }
+    Line {
+      ZOrder		      7
+      SrcBlock		      "S-Function"
+      SrcPort		      1
+      Points		      [86, 0]
+      Branch {
+	ZOrder			12
+	Points			[0, 55]
+	DstBlock		"Mux1"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			11
+	DstBlock		"Demux"
+	DstPort			1
+      }
+    }
+    Line {
+      ZOrder		      13
+      SrcBlock		      "Mux1"
+      SrcPort		      1
+      DstBlock		      "To Workspace"
       DstPort		      1
     }
   }
