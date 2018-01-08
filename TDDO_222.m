@@ -31,7 +31,6 @@ str = [];
 ts  = [];
 
 function sys=mdlDerivatives(t,x,u)
-
 a1 = u(1);
 a2 = u(2);
 b1 = u(3);

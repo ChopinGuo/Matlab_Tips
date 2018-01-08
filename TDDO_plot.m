@@ -1,5 +1,6 @@
 close all
 
+
 figure(1);
 plot(t,p(:,1),'r',t,p(:,2),'b',t,p(:,3),t,p(:,4),':',t,p(:,5),':','linewidth',2);
 xlabel('time(s)');
